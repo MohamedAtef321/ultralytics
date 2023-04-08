@@ -75,7 +75,10 @@ class DetectionPredictor(BasePredictor):
 
         # apply Lane Detection mode on original image
         if self.args.lane_detection:
-            im0 = lane_detection_core(im0)
+            try :
+                im0 = lane_detection_core(im0)
+            except:
+                print("Lane detection failed!")
 
         self.annotator = self.get_annotator(np.ascontiguousarray(im0))
 
