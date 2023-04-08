@@ -111,6 +111,10 @@ class BasePredictor:
         if self.args.night_vision:
             LOGGER.info('Night Vision mode Activated!')
 
+        # Check lane detection mode
+        if self.args.lane_detection:
+            LOGGER.info('Lane Detection mode Activated!')
+
     def preprocess(self, img):
         pass
 

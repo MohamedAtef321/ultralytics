@@ -1,12 +1,14 @@
 # Ultralytics YOLO 🚀, GPL-3.0 license
 
 import torch
+import numpy as np
 
 from ultralytics.yolo.engine.predictor import BasePredictor
 from ultralytics.yolo.engine.results import Results
 from ultralytics.yolo.utils import DEFAULT_CFG, ROOT, ops
 from ultralytics.yolo.utils.night_vision import apply_night_vision, night_vision_core
 from ultralytics.yolo.utils.plotting import Annotator, colors, save_one_box
+from ultralytics.yolo.utils.lane_detection import lane_detection_core
 
 
 class DetectionPredictor(BasePredictor):
@@ -71,7 +73,11 @@ class DetectionPredictor(BasePredictor):
             im0 = night_vision_core(im0, self.args.image_gamma, self.args.min_gamma, self.args.max_gamma,
                                     self.args.min_normalized_intensity)
 
-        self.annotator = self.get_annotator(im0)
+        # apply Lane Detection mode on original image
+        if self.args.lane_detection:
+            im0 = lane_detection_core(im0)
+
+        self.annotator = self.get_annotator(np.ascontiguousarray(im0))
 
         det = results[idx].boxes  # TODO: make boxes inherit from tensors
         if len(det) == 0:

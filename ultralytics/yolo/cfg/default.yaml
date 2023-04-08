@@ -70,6 +70,7 @@ image_gamma: auto # image gamma ('auto'/int/float)
 min_gamma: 0.6 # minimum image gamma (if gamma = auto)
 max_gamma: 1.0 # maximum image gamma (if gamma = auto)
 min_normalized_intensity: 0.25 # minimum image normalized intensity (if gamma = auto)
+lane_detection: False # Detect lanes in images
 
 # Export settings ------------------------------------------------------------------------------------------------------
 format: torchscript  # format to export to
