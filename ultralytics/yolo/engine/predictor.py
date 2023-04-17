@@ -115,6 +115,13 @@ class BasePredictor:
         if self.args.lane_detection:
             LOGGER.info('Lane Detection mode Activated!')
 
+        spi_import = False
+        # Check SPI mode
+        if self.args.spi:
+            LOGGER.info('SPI mode Activated!')
+            self.spi_import = True
+            
+
     def preprocess(self, img):
         pass
 

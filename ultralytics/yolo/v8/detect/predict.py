@@ -9,7 +9,6 @@ from ultralytics.yolo.utils import DEFAULT_CFG, ROOT, ops
 from ultralytics.yolo.utils.night_vision import apply_night_vision, night_vision_core
 from ultralytics.yolo.utils.plotting import Annotator, colors, save_one_box
 from ultralytics.yolo.utils.lane_detection import lane_detection_core
-from ultralytics.yolo.utils.spi import spi_send
 
 
 class DetectionPredictor(BasePredictor):
@@ -77,14 +76,14 @@ class DetectionPredictor(BasePredictor):
         # apply Lane Detection mode on original image
         if self.args.lane_detection:
             try :
-                im0 = lane_detection_core(im0, 
-                                          CANNY_THRESHOLD_1= self.args.CANNY_THRESHOLD_1,
-                                          CANNY_THRESHOLD_2= self.args.CANNY_THRESHOLD_2,
-                                          MIN_VOTES= self.args.MIN_VOTES,
-                                          MIN_LINE_LEN= self.args.MIN_LINE_LEN,
-                                          MAX_LINE_GAP= self.args.MAX_LINE_GAP,
-                                          line_color= self.args.line_color,
-                                          line_thickness= self.args.line_thickness)
+                im0 = lane_detection_core(im0,
+                                        CANNY_THRESHOLD_1= self.args.CANNY_THRESHOLD_1,
+                                        CANNY_THRESHOLD_2= self.args.CANNY_THRESHOLD_2,
+                                        MIN_VOTES= self.args.MIN_VOTES,
+                                        MIN_LINE_LEN= self.args.MIN_LINE_LEN,
+                                        MAX_LINE_GAP= self.args.MAX_LINE_GAP,
+                                        line_color= self.args.lane_line_color,
+                                        line_thickness= self.args.lane_line_thickness)
             except:
                 print("Lane detection failed!")
 
@@ -97,11 +96,21 @@ class DetectionPredictor(BasePredictor):
             n = (det.cls == c).sum()  # detections per class
             # print("c: ", int(c), ", n: ", int(n))
             # print("class: ", self.model.names[int(c)])
+
+            # send class to SPI
             if self.args.spi:
+
+                # import spi_send function (under development)
+                if self.spi_import:
+                    from ultralytics.yolo.utils.spi import spi_send
+                    self.spi_import = False
+
+                # send class to SPI
                 spi_send([int(c)], 
                         spi_mode = self.args.spi_mode, 
                         spi_speed = self.args.spi_speed, 
                         spi_sleep = self.args.spi_sleep) # send class to SPI
+
             log_string += f"{n} {self.model.names[int(c)]}{'s' * (n > 1)}, "
 
         # write

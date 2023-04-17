@@ -43,14 +43,17 @@ def lane_detection_core(image, CANNY_THRESHOLD_1, CANNY_THRESHOLD_2,
 
     # 7.   Get the lines (from edges - Hough lines)
     lines = hough_lines(ROI_edges_img, RHO, THETA, MIN_VOTES, MIN_LINE_LEN, MAX_LINE_GAP)
-    hough_lines_image = helpers_draw_lines(lines, ROI_edges_img)
+    hough_lines_image = helpers_draw_lines(lines, ROI_edges_img,
+                                           color= line_color,
+                                           thickness= line_thickness)
 
     # 8.   Formulate 2 lane lines
     lanes = helpers_formulate_lanes(lines, ROI_edges_img)
 
     # 9.   Create an image with those 2 lines
-    lanes_image = helpers_draw_lines(lanes, ROI_edges_img, 
-                                     line_color, line_thickness)
+    lanes_image = helpers_draw_lines(lanes, ROI_edges_img,
+                                     color= line_color,
+                                     thickness= line_thickness)
 
     # 10.   Combine the orginal frame with the 2 lines
     final_image = cv2.addWeighted(image, 0.8, lanes_image, 1, 0) 

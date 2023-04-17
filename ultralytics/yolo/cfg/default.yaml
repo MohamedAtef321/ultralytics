@@ -80,8 +80,8 @@ CANNY_THRESHOLD_2: 150 # try: 100 - 200     # Typical: 150
 MIN_VOTES: 70          # try: 10 - 50                  # Typical: 30
 MIN_LINE_LEN: 70      # try: 10 - 100                 # Typical: 50
 MAX_LINE_GAP: 70     # try: 10 - 100                 # Typical: 50
-line_color: [243, 105, 14] # lane line color in BGR format
-line_thickness: 12 # lane line thickness
+lane_line_color: [243, 105, 14] # lane line color in BGR format
+lane_line_thickness: 12 # lane line thickness
 
 # SPI settings ---------------------------------------------------------------------------------------------------------
 spi: False # Send using spi
