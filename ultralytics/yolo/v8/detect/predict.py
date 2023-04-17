@@ -78,11 +78,13 @@ class DetectionPredictor(BasePredictor):
         if self.args.lane_detection:
             try :
                 im0 = lane_detection_core(im0, 
-                                          self.args.CANNY_THRESHOLD_1,
-                                          self.args.CANNY_THRESHOLD_2,
-                                          self.args.MIN_VOTES,
-                                          self.args.MIN_LINE_LEN,
-                                          self.args.MAX_LINE_GAP)
+                                          CANNY_THRESHOLD_1= self.args.CANNY_THRESHOLD_1,
+                                          CANNY_THRESHOLD_2= self.args.CANNY_THRESHOLD_2,
+                                          MIN_VOTES= self.args.MIN_VOTES,
+                                          MIN_LINE_LEN= self.args.MIN_LINE_LEN,
+                                          MAX_LINE_GAP= self.args.MAX_LINE_GAP,
+                                          line_color= self.args.line_color,
+                                          line_thickness= self.args.line_thickness)
             except:
                 print("Lane detection failed!")
 

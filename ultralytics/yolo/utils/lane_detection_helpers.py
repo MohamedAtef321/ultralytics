@@ -111,9 +111,8 @@ def helpers_formulate_lanes(lines, img, color=[255, 0, 0], thickness=2):
         #lst.append([x_min, y_min, y_min, y_max])
     return(np.array(lst))
 
-def helpers_draw_lines(lines, masked_edges):
-    color = [243, 105, 14]
-    thickness = 12
+def helpers_draw_lines(lines, masked_edges, color, thickness):
+
     lines_image = np.zeros((masked_edges.shape[0], masked_edges.shape[1], 3), dtype=np.uint8)
     for line in lines:
         for x1,y1,x2,y2 in line:

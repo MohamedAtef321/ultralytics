@@ -17,7 +17,9 @@ def hough_lines(img, RHO, THETA, MIN_VOTES, MIN_LINE_LEN, MAX_LINE_GAP):
                                     minLineLength=MIN_LINE_LEN, maxLineGap=MAX_LINE_GAP)
             return lines
 
-def lane_detection_core(image, CANNY_THRESHOLD_1, CANNY_THRESHOLD_2, MIN_VOTES, MIN_LINE_LEN, MAX_LINE_GAP):
+def lane_detection_core(image, CANNY_THRESHOLD_1, CANNY_THRESHOLD_2,
+                        MIN_VOTES, MIN_LINE_LEN, MAX_LINE_GAP,
+                        line_color, line_thickness):
 
     # CANNY_THRESHOLD_1 = 50 # try: 50 - 100      # Typical: 50
     # CANNY_THRESHOLD_2 = 150 # try: 100 - 200     # Typical: 150
@@ -47,7 +49,8 @@ def lane_detection_core(image, CANNY_THRESHOLD_1, CANNY_THRESHOLD_2, MIN_VOTES, 
     lanes = helpers_formulate_lanes(lines, ROI_edges_img)
 
     # 9.   Create an image with those 2 lines
-    lanes_image = helpers_draw_lines(lanes, ROI_edges_img)
+    lanes_image = helpers_draw_lines(lanes, ROI_edges_img, 
+                                     line_color, line_thickness)
 
     # 10.   Combine the orginal frame with the 2 lines
     final_image = cv2.addWeighted(image, 0.8, lanes_image, 1, 0) 
