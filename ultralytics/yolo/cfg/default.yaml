@@ -72,7 +72,14 @@ image_gamma: auto # image gamma ('auto'/int/float)
 min_gamma: 0.6 # minimum image gamma (if gamma = auto)
 max_gamma: 1.0 # maximum image gamma (if gamma = auto)
 min_normalized_intensity: 0.25 # minimum image normalized intensity (if gamma = auto)
+
+# Lane Detection settings ---------------------------------------------------------------------------------------------
 lane_detection: False # Detect lanes in images
+CANNY_THRESHOLD_1: 50 # try: 50 - 100      # Typical: 50
+CANNY_THRESHOLD_2: 150 # try: 100 - 200     # Typical: 150
+MIN_VOTES: 70          # try: 10 - 50                  # Typical: 30
+MIN_LINE_LEN: 70      # try: 10 - 100                 # Typical: 50
+MAX_LINE_GAP: 70     # try: 10 - 100                 # Typical: 50
 
 # SPI settings ---------------------------------------------------------------------------------------------------------
 spi: False # Send using spi

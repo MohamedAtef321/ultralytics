@@ -77,7 +77,12 @@ class DetectionPredictor(BasePredictor):
         # apply Lane Detection mode on original image
         if self.args.lane_detection:
             try :
-                im0 = lane_detection_core(im0)
+                im0 = lane_detection_core(im0, 
+                                          self.args.CANNY_THRESHOLD_1,
+                                          self.args.CANNY_THRESHOLD_2,
+                                          self.args.MIN_VOTES,
+                                          self.args.MIN_LINE_LEN,
+                                          self.args.MAX_LINE_GAP)
             except:
                 print("Lane detection failed!")
 

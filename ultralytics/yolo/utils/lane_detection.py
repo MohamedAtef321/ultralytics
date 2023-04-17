@@ -17,17 +17,17 @@ def hough_lines(img, RHO, THETA, MIN_VOTES, MIN_LINE_LEN, MAX_LINE_GAP):
                                     minLineLength=MIN_LINE_LEN, maxLineGap=MAX_LINE_GAP)
             return lines
 
-def lane_detection_core(image):
+def lane_detection_core(image, CANNY_THRESHOLD_1, CANNY_THRESHOLD_2, MIN_VOTES, MIN_LINE_LEN, MAX_LINE_GAP):
 
-    CANNY_THRESHOLD_1 = 50 # try: 50 - 100      # Typical: 50
-    CANNY_THRESHOLD_2 = 150 # try: 100 - 200     # Typical: 150
+    # CANNY_THRESHOLD_1 = 50 # try: 50 - 100      # Typical: 50
+    # CANNY_THRESHOLD_2 = 150 # try: 100 - 200     # Typical: 150
 
     #HOUGH LINES PARAMETERS
     RHO = 1                 # try: 1 - 4 (0.5 increments)  
     THETA = np.pi/180       # Usually this is Ok
-    MIN_VOTES = 70          # try: 10 - 50                  # Typical: 30
-    MIN_LINE_LEN = 70
-    MAX_LINE_GAP = 70
+    # MIN_VOTES = 70          # try: 10 - 50                  # Typical: 30
+    # MIN_LINE_LEN = 70
+    # MAX_LINE_GAP = 70
 
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
