@@ -9,6 +9,7 @@ from ultralytics.yolo.utils import DEFAULT_CFG, ROOT, ops
 from ultralytics.yolo.utils.night_vision import apply_night_vision, night_vision_core
 from ultralytics.yolo.utils.plotting import Annotator, colors, save_one_box
 from ultralytics.yolo.utils.lane_detection import lane_detection_core
+from ultralytics.yolo.utils.spi import spi_send
 
 
 class DetectionPredictor(BasePredictor):
@@ -87,6 +88,10 @@ class DetectionPredictor(BasePredictor):
             return f'{log_string}(no detections), '
         for c in det.cls.unique():
             n = (det.cls == c).sum()  # detections per class
+            # print("c: ", int(c), ", n: ", int(n))
+            # print("class: ", self.model.names[int(c)])
+            if self.args.spi:
+                spi_send([int(c)]) # send class to SPI
             log_string += f"{n} {self.model.names[int(c)]}{'s' * (n > 1)}, "
 
         # write
