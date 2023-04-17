@@ -91,7 +91,10 @@ class DetectionPredictor(BasePredictor):
             # print("c: ", int(c), ", n: ", int(n))
             # print("class: ", self.model.names[int(c)])
             if self.args.spi:
-                spi_send([int(c)]) # send class to SPI
+                spi_send([int(c)], 
+                        spi_mode = self.args.spi_mode, 
+                        spi_speed = self.args.spi_speed, 
+                        spi_sleep = self.args.spi_sleep) # send class to SPI
             log_string += f"{n} {self.model.names[int(c)]}{'s' * (n > 1)}, "
 
         # write

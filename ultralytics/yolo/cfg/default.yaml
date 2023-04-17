@@ -76,6 +76,9 @@ lane_detection: False # Detect lanes in images
 
 # SPI settings ---------------------------------------------------------------------------------------------------------
 spi: False # Send using spi
+spi_mode: 3 # SPI mode
+spi_speed: 2000000 # SPI speed
+spi_sleep: 2 # SPI sleep time
 
 # Export settings ------------------------------------------------------------------------------------------------------
 format: torchscript  # format to export to
