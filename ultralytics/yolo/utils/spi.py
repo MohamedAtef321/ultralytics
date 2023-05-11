@@ -1,4 +1,4 @@
-import spidev
+#import spidev
 import time
 
 def spi_send(data, spi_mode, spi_speed, spi_sleep):
@@ -16,3 +16,10 @@ def spi_send(data, spi_mode, spi_speed, spi_sleep):
             time.sleep(spi_sleep) # sleep for n seconds
     finally:
         spi.close()
+
+def spi_remap(c):
+    ################ Adel Requirements ##############
+    if(c >= 9  and c <= 18):
+        c = c + 128
+    return c
+    ################################################# 

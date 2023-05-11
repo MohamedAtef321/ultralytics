@@ -94,22 +94,33 @@ class DetectionPredictor(BasePredictor):
             return f'{log_string}(no detections), '
         for c in det.cls.unique():
             n = (det.cls == c).sum()  # detections per class
-            # print("c: ", int(c), ", n: ", int(n))
-            # print("class: ", self.model.names[int(c)])
+            ################ Adel Requirements ##############
+            #if(c >= 9  and c <= 18):
+            #   sign = c + 128
+            #else:
+            #    sign = c
+            #################################################
+
+            #print("c: ", int(c), ", n: ", int(n))
+            #print("class: ", self.model.names[int(c)])
 
             # send class to SPI
             if self.args.spi:
 
                 # import spi_send function (under development)
                 if self.spi_import:
-                    from ultralytics.yolo.utils.spi import spi_send
+                    from ultralytics.yolo.utils.spi import spi_remap #spi_send , 
                     self.spi_import = False
-
+                
+                # remaping for Adel  
+                spi_c = spi_remap(c)
+                print(f'c= {c}, spi_c {spi_c}')
+                
                 # send class to SPI
-                spi_send([int(c)], 
-                        spi_mode = self.args.spi_mode, 
-                        spi_speed = self.args.spi_speed, 
-                        spi_sleep = self.args.spi_sleep) # send class to SPI
+                #spi_send([int(spi_c)], 
+                        #spi_mode = self.args.spi_mode, 
+                        #spi_speed = self.args.spi_speed, 
+                        #spi_sleep = self.args.spi_sleep) # send class to SPI
 
             log_string += f"{n} {self.model.names[int(c)]}{'s' * (n > 1)}, "
 
