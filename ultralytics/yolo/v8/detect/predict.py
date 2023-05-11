@@ -6,9 +6,12 @@ import numpy as np
 from ultralytics.yolo.engine.predictor import BasePredictor
 from ultralytics.yolo.engine.results import Results
 from ultralytics.yolo.utils import DEFAULT_CFG, ROOT, ops
-from ultralytics.yolo.utils.night_vision import apply_night_vision, night_vision_core
 from ultralytics.yolo.utils.plotting import Annotator, colors, save_one_box
+
+# importing our custom functions
+from ultralytics.yolo.utils.night_vision import apply_night_vision, night_vision_core
 from ultralytics.yolo.utils.lane_detection import lane_detection_core
+from ultralytics.yolo.utils.spi import spi_send, spi_remap
 
 
 class DetectionPredictor(BasePredictor):
@@ -94,33 +97,22 @@ class DetectionPredictor(BasePredictor):
             return f'{log_string}(no detections), '
         for c in det.cls.unique():
             n = (det.cls == c).sum()  # detections per class
-            ################ Adel Requirements ##############
-            #if(c >= 9  and c <= 18):
-            #   sign = c + 128
-            #else:
-            #    sign = c
-            #################################################
-
             #print("c: ", int(c), ", n: ", int(n))
             #print("class: ", self.model.names[int(c)])
 
             # send class to SPI
             if self.args.spi:
+                
+                # remaping for Embedded requirements 
+                spi_c = spi_remap(int(c))
+                # print("c: ", int(c), ", spi_c: ", int(spi_c))
 
-                # import spi_send function (under development)
-                if self.spi_import:
-                    from ultralytics.yolo.utils.spi import spi_remap #spi_send , 
-                    self.spi_import = False
-                
-                # remaping for Adel  
-                spi_c = spi_remap(c)
-                print(f'c= {c}, spi_c {spi_c}')
-                
                 # send class to SPI
-                #spi_send([int(spi_c)], 
-                        #spi_mode = self.args.spi_mode, 
-                        #spi_speed = self.args.spi_speed, 
-                        #spi_sleep = self.args.spi_sleep) # send class to SPI
+                spi_send([int(spi_c)], 
+                        spi_mode = self.args.spi_mode, 
+                        spi_speed = self.args.spi_speed, 
+                        spi_sleep = self.args.spi_sleep)
+
 
             log_string += f"{n} {self.model.names[int(c)]}{'s' * (n > 1)}, "
 
