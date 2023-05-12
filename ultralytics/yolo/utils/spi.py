@@ -40,9 +40,8 @@ def spi_send(data, spi_mode, spi_speed, spi_sleep):
         # spi.cshigh = False
         # spi.bits_per_word = 8
 
-        while True: # endless loop, press Ctrl+C to exit
-            spi.writebytes(data)  # write data to SPI
-            time.sleep(spi_sleep)  # sleep for n seconds
+        spi.writebytes(data)  # write data to SPI
+        time.sleep(spi_sleep)  # sleep for n seconds
 
     except:
         print("SPI send failed !")
