@@ -1,6 +1,33 @@
 <div align="center">
   <p>
     <a href="https://ultralytics.com/yolov8" target="_blank">
+      <img width="100%" src="yolov8_banner_rounded.png"></a>
+  </p>
+
+# YOLOv8: Extended Edition
+
+## 📘 Summary
+
+🚀 [YOLOv8: Extended Edition](README.md) is a fork of [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics) repository. but with new features focuses on Automotive Vechicles 🚗.
+
+</div>
+
+> 🙋‍♂️ **Who are we ?** : 
+> - We are a team from Egypt studied at [Faculty of Engineering](https://engfac.mans.edu.eg/), [Electronics and Communications Department](https://www.facebook.com/people/%D8%A7%D9%84%D8%B5%D9%81%D8%AD%D8%A9-%D8%A7%D9%84%D8%B1%D8%B3%D9%85%D9%8A%D8%A9-%D9%84%D9%82%D8%B3%D9%85-%D9%87%D9%86%D8%AF%D8%B3%D8%A9-%D8%A7%D9%84%D8%A7%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A%D8%A7%D8%AA-%D9%88-%D8%A7%D9%84%D8%A7%D8%AA%D8%B5%D8%A7%D9%84%D8%A7%D8%AA-%D8%AC%D8%A7%D9%85%D8%B9%D8%A9-%D8%A7%D9%84%D9%85%D9%86%D8%B5%D9%88%D8%B1%D8%A9/100057482558089/) in [Mansoura University](https://www.mans.edu.eg/en).
+>
+> - These features were created to be used for our graduation project 🎓 (RTSD System) to make a system that can detect Roads Traffic Signs in real-time. 
+>
+> - We are using YOLOv8 as a base model and we are adding new features to it to make it more suitable for our use case.
+>
+
+If you are new to YOLOv8, please unpack the [original YOLOv8 Readme](#original-yolov8-readme) below.
+
+<details>
+<summary>Original YOLOv8 Readme</summary>
+
+<div align="center">
+  <p>
+    <a href="https://ultralytics.com/yolov8" target="_blank">
       <img width="100%" src="https://raw.githubusercontent.com/ultralytics/assets/main/yolov8/banner-yolov8.png"></a>
   </p>
 
@@ -257,3 +284,192 @@ the [Ultralytics Community Forum](https://community.ultralytics.com/).
   <a href="https://www.instagram.com/ultralytics/" style="text-decoration:none;">
     <img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-instagram.png" width="3%" alt="" /></a>
 </div>
+
+</details>
+
+<div align="center">
+
+## ⚡ What's New!
+</div>
+
+We added new features to YOLOv8, including:
+- 🌚 `Night Vision`: \
+YOLOv8 can now see in the dark! We added support for night vision cameras, which can be used to detect objects in low-light conditions.
+
+<div align="center">
+  <img width="80%" src="night_vision_readme.png">
+</div>
+
+- 🛣 `Lane Line Detection`: \
+YOLOv8 can now detect lane lines on the road! This feature is useful for self-driving cars and other autonomous vehicles.
+
+<div align="center">
+  <img width="80%" src="lane_line_detection_readme.png">
+</div>
+
+- 🔌 `SPI output`: \
+YOLOv8 can now output data over SPI, which is useful for connecting to other devices such as Arduino boards, Raspberry Pis or ESP32s.
+
+<div align="center">
+  <img width="80%" src="spi_raspberry_bins.png">
+</div>
+
+## 📚 Documentation
+
+We will talk about each of these features in more detail below.
+
+----------------------------------------------------------------------
+
+### 🌚 Night Vision
+
+<details>
+<summary>Unpack Night Vision</summary>
+
+> Note:\
+&nbsp;&nbsp;&nbsp;&nbsp; This feature is available for `detect` mode.\
+&nbsp;&nbsp;&nbsp;&nbsp; and `val` mode, only with `device=cpu`.
+<details>
+<summary>How does it work ⚙?</summary>
+
+Gamma correction is pretty simple, it's just a non-linear transformation of the input image.\
+It is used to adjust the overall brightness of the image.\
+The formula for gamma correction is as follows:
+
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;Image_{out_{norm}}=Image_{in_{norm}}^{Gamma}" title="\Large Image_{out}=Image_{in}^{gamma}" />
+
+where `Image_out` is the output normalized image, `Image_in` is the input normalized image, and `Gamma` is the gamma value (power).
+> Note:\
+&nbsp;&nbsp;&nbsp;&nbsp; 1- The value of `gamma` is between 0 and 1 (closer to 0 brighter, closer to 1 darker).\
+&nbsp;&nbsp;&nbsp;&nbsp; 2- The value of both `Image_out` and `Image_in` pixels are between 0 and 1.
+
+To make it more clear, let's take a look at the following example:
+
+Let's assume we have an image with only one pixel, and its value is 0.8 (normalized value).\
+Now, let's apply gamma correction as follows:
+
+`Image_out = Image_in ^ gamma`
+
+> when `gamma = 0`, then `Image_out = 1`\
+when `gamma = 0.25`, then `Image_out = 0.94`\
+when `gamma = 0.5`, then `Image_out = 0.89`\
+when `gamma = 0.75`, then `Image_out = 0.84`\
+when `gamma = 1`, then `Image_out = 0.8`
+
+let's plot the results:
+
+![Example](docs/tasks/night_vision_gamma.png)
+
+> Note:\
+&nbsp;&nbsp;&nbsp;&nbsp; Decreasing the value of `gamma` will make the image brighter.
+
+</details>
+
+<details>
+<summary>How to use it 🚄?</summary>
+
+There are some arguments added for Night Vision Feature :
+1. [night_vision](#🔵-night_vision-parameter)
+2. [image_gamma (Optional)](#🔵-image_gamma-parameter)
+    - if integer or float number :
+        * No need to pass any other parameters.
+
+    - if 'auto', then you can pass the following parameters (all of them have values between 0 and 1):
+        * 🟢 min_normalized_intensity (Optional)
+        * 🟢 min_gamma (Optional)
+        * 🟢 max_gamma (Optional)
+
+these parameters are described as below:
+
+### 🔵 **night_vision** parameter :
+(default value is `False`)
+
+If you use camera in a dark environment, then you may get poor results.\
+We have made a preprocess feature to enhance image brightness, it actually may help you get better results in dark environments.
+
+You can use Night Vision mode by adding parameter `night_vision` as follows:
+
+Using CLI:
+```bash
+yolo detect predict model=path/to/best.pt source='https://ultralytics.com/images/bus.jpg' night_vision
+```
+and it has 3 modes:
+
+1- Default mode:
+> By not passing parameter `night_vision`, it will use the original image as it is.
+
+2- Night Vision mode (Only apply on input image):
+```bash
+night_vision
+```
+Or
+```bash
+night_vision=true
+```
+> It will apply night vision on input image, pass it to the model and get the result based on night-processed image, But the shown/saved image will be the original image without night filter.
+
+3- Night Vision mode (Apply on both input image and shown/saved image):
+```bash
+night_vision=show
+```
+> It will apply night vision on input image, pass it to the model and get the result based on night-processed image, The shown/saved image will be also night-processed image with night filter applied.
+
+An example to differentiate between Night Vision modes and their (Saved/Shown) results:
+
+![Example Image](docs/tasks/night_vision_example.png)
+
+### 🔵 **image_gamma** parameter :
+(default value is `auto`)
+
+image_gamma parameter has 2 modes:
+
+1- Fixed gamma value:
+
+> If you want to use fixed gamma value (from 0 to 1), you can pass `image_gamma` parameter as follows:\
+&nbsp;&nbsp;&nbsp;&nbsp; Note 1: 1 means no change in image brightness, 0 means white image.\
+&nbsp;&nbsp;&nbsp;&nbsp; Note 2: Lower gamma value means more lightening applied to image (brighter image).
+
+Using CLI:
+```bash
+yolo detect predict model=path/to/best.pt source='https://ultralytics.com/images/bus.jpg' night_vision=show image_gamma=0.8
+```
+> It will use fixed gamma value of 0.8
+
+2- Auto gamma value:
+> If you want to use auto gamma value, you can pass `image_gamma` parameter as follows:
+
+Using CLI:
+```bash
+yolo detect predict model=path/to/best.pt source='https://ultralytics.com/images/bus.jpg' night_vision=show image_gamma=auto
+```
+
+It will test normalized image intensity (its value from 0 to 1), and its value describe image brightness (closer to 0 means dark image, closer to 1 means bright image).
+
+> if it is less than `min_normalized_intensity` (default value is 0.25) meaning that image is dark, then it will use scaled gamma value (from `min_gamma` to `max_gamma`) - based on image intensity - to enhance image brightness.\
+&nbsp;&nbsp;&nbsp;&nbsp; Note: `min_gamma` and `max_gamma` have default values of 0.6 and 1.0 respectively.
+
+> if it is greater than `min_normalized_intensity` (default value is 0.25) meaning that image is bright, then it will use fixed gamma value of 1 (no change in image brightness).
+
+For full customized gamma value, you can pass `min_normalized_intensity`, `min_gamma` and `max_gamma` as follows:
+
+Using CLI:
+```bash
+yolo detect predict model=path/to/best.pt source='https://ultralytics.com/images/bus.jpg' night_vision=show image_gamma=auto min_normalized_intensity=0.5 min_gamma=0.8 max_gamma=1.0
+```
+
+An example to show effect of gamma (`image_gamma`) on image brightness  :
+
+![Gamma example Image](docs/tasks/gamma_example.png)
+
+</details>
+
+</details>
+
+----------------------------------------------------------------------
+
+### 🛣 Lane Line Detection
+
+<details>
+<summary>Unpack Lane Line Detection</summary>
+
+Lane Line Detection is a feature that can be used to detect lane lines in images and videos.
+
