@@ -312,9 +312,10 @@ YOLOv8 can now output data over SPI, which is useful for connecting to other dev
 
 <div align="center">
   <img width="80%" src="spi_raspberry_bins.png">
-</div>
 
-## 📚 Documentation
+  ## 📚 Documentation
+
+</div>
 
 We will talk about each of these features in more detail below.
 
@@ -472,4 +473,134 @@ An example to show effect of gamma (`image_gamma`) on image brightness  :
 <summary>Unpack Lane Line Detection</summary>
 
 Lane Line Detection is a feature that can be used to detect lane lines in images and videos.
+
+<details>
+<summary>How does it work ⚙?</summary>
+
+Lane Line Detection is a feature that can be used to detect lane lines in images and videos.
+
+The algorithm is based on the following steps:
+
+1. Detecting edges using Canny Edge Detection.
+2. Applying a mask to the image to remove unnecessary parts.
+3. Applying Hough Transform to detect lines.
+4. Filtering the detected lines to get the left and right lane lines.
+5. Drawing the detected lane lines on the image.
+
+</details>
+
+<details>
+<summary>How to use it 🚄?</summary>
+
+There are some arguments added for Lane Line Detection Feature :
+1. `lane_detection`: 
+    - if `lane_detection` is `True`, then it will apply lane line detection on the input image.
+    - if `lane_detection` is `False`, then it will not apply lane line detection on the input image.
+    > Note:\
+    &nbsp;&nbsp;&nbsp;&nbsp; Default value is `False`.
+2. Optional parameters:
+    - `CANNY_THRESHOLD_1`: The first threshold for the hysteresis procedure in Canny Edge Detection. (default value is 50)
+    - `CANNY_THRESHOLD_2`: The second threshold for the hysteresis procedure in Canny Edge Detection. (default value is 150)
+    - `MIN_VOTES`: The minimum number of votes (intersections in Hough grid cell). (default value is 100)
+    - `MIN_LINE_LEN`: The minimum number of pixels making up a line. (default value is 50)
+    - `MAX_LINE_GAP`: The maximum gap between two points to be considered in the same line. (default value is 10)
+    - `lane_line_color`: The color of the detected lane lines. (default value is [243, 105, 14])
+    - `lane_line_thickness`: The thickness of the detected lane lines. (default value is 12)
+
+You can use Lane Line Detection by adding parameter `lane_detection` as follows:
+
+Using CLI:
+```bash
+yolo detect predict model=path/to/best.pt source='https://ultralytics.com/images/bus.jpg' lane_detection
+```
+and it has 2 modes:
+
+1- Default mode:
+> By not passing parameter `lane_detection`, it will not apply lane line detection on the input image.
+
+2- Lane Line Detection mode:
+```bash
+lane_detection
+```
+Or
+```bash
+lane_detection=true
+```
+> It will apply lane line detection on input image, pass it to the model and get the result based on lane line detected image, The shown/saved image will have lane line detected.
+
+An example to differentiate between Lane Line Detection modes and their (Saved/Shown) results:
+
+![Example Image](lane_line_detection_readme.png)
+
+</details>
+
+</details>
+
+----------------------------------------------------------------------
+
+### 🔌 SPI output
+
+<details>
+<summary>Unpack SPI output</summary>
+
+SPI output is a feature that can be used to output data over SPI, which is useful for connecting to other devices such as Arduino boards, Raspberry Pis or ESP32s.
+
+<details>
+<summary>How does it work ⚙?</summary>
+
+SPI stands for Serial Peripheral Interface. It is a synchronous serial communication interface specification used for short-distance communication, primarily in embedded systems.\
+SPI devices communicate in full duplex mode using a master-slave architecture with a single master. The master device originates the frame for reading and writing. Multiple slave devices are supported through selection with individual slave select (SS) lines.
+
+</details>
+
+<details>
+<summary>How to use it 🚄?</summary>
+
+There are some arguments added for SPI output Feature :
+1. `spi`: 
+    - if `spi` is `True`, then it will output data over SPI.
+    - if `spi` is `False`, then it will not output data over SPI.
+    > Note:\
+    &nbsp;&nbsp;&nbsp;&nbsp; Default value is `False`.
+2. Optional parameters:
+    - `spi_mode`: The SPI mode to use. (default value is 3)
+    - `spi_speed`: The SPI speed to use. (default value is 2000000)
+    - `spi_sleep`: The SPI delay to use. (default value is 0)
+    - `spi_port`: The SPI port to use. (default value is 0)
+    - `spi_device`: The SPI device to use. (default value is 0)
+
+You can use SPI output by adding parameter `spi` as follows:
+
+Using CLI:
+```bash
+yolo detect predict model=path/to/best.pt source='https://ultralytics.com/images/bus.jpg' spi
+```
+and it has 2 modes:
+
+1- Default mode:
+> By not passing parameter `spi`, it will not output data over SPI.
+
+2- SPI output mode:
+```bash
+spi
+```
+Or
+```bash
+spi=true
+```
+> It will output data over SPI.
+
+</details>
+
+</details>
+
+----------------------------------------------------------------------
+
+<div align="center">
+
+## 🙏 Thanks for reading!
+
+We hope our new features will help you in your projects.
+
+</div>
 

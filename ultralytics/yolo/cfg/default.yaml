@@ -77,9 +77,9 @@ min_normalized_intensity: 0.25 # minimum image normalized intensity (if gamma = 
 lane_detection: False # Detect lanes in images
 CANNY_THRESHOLD_1: 50 # try: 50 - 100      # Typical: 50
 CANNY_THRESHOLD_2: 150 # try: 100 - 200     # Typical: 150
-MIN_VOTES: 70          # try: 10 - 50                  # Typical: 30
-MIN_LINE_LEN: 70      # try: 10 - 100                 # Typical: 50
-MAX_LINE_GAP: 70     # try: 10 - 100                 # Typical: 50
+MIN_VOTES: 100          # try: 10 - 50                  # Typical: 30
+MIN_LINE_LEN: 50      # try: 10 - 100                 # Typical: 50
+MAX_LINE_GAP: 10     # try: 10 - 100                 # Typical: 50
 lane_line_color: [243, 105, 14] # lane line color in BGR format
 lane_line_thickness: 12 # lane line thickness
 
@@ -87,7 +87,9 @@ lane_line_thickness: 12 # lane line thickness
 spi: False # Send using spi
 spi_mode: 3 # SPI mode
 spi_speed: 2000000 # SPI speed
-spi_sleep: 2 # SPI sleep time
+spi_sleep: 0 # SPI sleep time
+spi_port: 0 # SPI port
+spi_device: 0 # SPI device
 
 # Export settings ------------------------------------------------------------------------------------------------------
 format: torchscript  # format to export to

@@ -111,7 +111,9 @@ class DetectionPredictor(BasePredictor):
                 spi_send([int(spi_c)], 
                         spi_mode = self.args.spi_mode, 
                         spi_speed = self.args.spi_speed, 
-                        spi_sleep = self.args.spi_sleep)
+                        spi_sleep = self.args.spi_sleep,
+                        spi_device = self.args.spi_device,
+                        spi_port = self.args.spi_port)
 
 
             log_string += f"{n} {self.model.names[int(c)]}{'s' * (n > 1)}, "

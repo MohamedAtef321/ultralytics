@@ -17,7 +17,7 @@ except ImportError:
         pass
 
 
-def spi_send(data, spi_mode, spi_speed, spi_sleep):
+def spi_send(data, spi_mode, spi_speed, spi_sleep, spi_device, spi_port):
     """
     Send data to SPI port
 
@@ -34,7 +34,7 @@ def spi_send(data, spi_mode, spi_speed, spi_sleep):
     try:
         
         spi = spidev.SpiDev()  # create spi object
-        spi.open(0, 0)  # open spi port 0, device (CS) 0
+        spi.open(spi_port, spi_device)  # open spi port 0, device (CS) 0
         spi.mode = spi_mode  # set SPI mode
         spi.max_speed_hz = spi_speed  # set SPI speed
         # spi.cshigh = False
