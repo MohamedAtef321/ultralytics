@@ -65,6 +65,31 @@ classes:  # filter results by class, i.e. class=0, or class=[0,2,3]
 retina_masks: False  # use high-resolution segmentation masks
 boxes: True  # Show boxes in segmentation predictions
 
+# Night Vision settings ------------------------------------------------------------------------------------------------
+night_vision: False # Activate Night Vision
+image_gamma: auto # image gamma ('auto'/int/float)
+min_gamma: 0.6 # minimum image gamma (if gamma = auto)
+max_gamma: 1.0 # maximum image gamma (if gamma = auto)
+min_normalized_intensity: 0.25 # minimum image normalized intensity (if gamma = auto)
+
+# Lane Detection settings ---------------------------------------------------------------------------------------------
+lane_detection: False # Detect lanes in images
+CANNY_THRESHOLD_1: 50 # try: 50 - 100      # Typical: 50
+CANNY_THRESHOLD_2: 150 # try: 100 - 200     # Typical: 150
+MIN_VOTES: 100          # try: 10 - 50                  # Typical: 30
+MIN_LINE_LEN: 50      # try: 10 - 100                 # Typical: 50
+MAX_LINE_GAP: 10     # try: 10 - 100                 # Typical: 50
+lane_line_color: [243, 105, 14] # lane line color in BGR format
+lane_line_thickness: 12 # lane line thickness
+
+# SPI settings ---------------------------------------------------------------------------------------------------------
+spi: False # Send using spi
+spi_mode: 3 # SPI mode
+spi_speed: 2000000 # SPI speed
+spi_sleep: 0 # SPI sleep time
+spi_port: 0 # SPI port
+spi_device: 0 # SPI device
+
 # Export settings ------------------------------------------------------------------------------------------------------
 format: torchscript  # format to export to
 keras: False  # use Keras

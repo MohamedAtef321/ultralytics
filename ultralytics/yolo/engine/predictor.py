@@ -108,6 +108,19 @@ class BasePredictor:
         self.callbacks = _callbacks or callbacks.get_default_callbacks()
         callbacks.add_integration_callbacks(self)
 
+        # Check Night Vision mode
+        if self.args.night_vision:
+            LOGGER.info('Night Vision mode Activated!')
+
+        # Check lane detection mode
+        if self.args.lane_detection:
+            LOGGER.info('Lane Detection mode Activated!')
+
+        # Check SPI mode
+        if self.args.spi:
+            LOGGER.info('SPI mode Activated!')
+            
+
     def preprocess(self, im):
         """Prepares input image before inference.
 
