@@ -93,6 +93,7 @@ class DetectionPredictor(BasePredictor):
         self.annotator = self.get_annotator(np.ascontiguousarray(im0))
 
         det = results[idx].boxes  # TODO: make boxes inherit from tensors
+        # print("det: ", det)
         if len(det) == 0:
             return f'{log_string}(no detections), '
         for c in det.cls.unique():
@@ -102,18 +103,23 @@ class DetectionPredictor(BasePredictor):
 
             # send class to SPI
             if self.args.spi:
-                
-                # remaping for Embedded requirements 
-                spi_c = spi_remap(int(c))
-                # print("c: ", int(c), ", spi_c: ", int(spi_c))
 
-                # send class to SPI
-                spi_send([int(spi_c)], 
-                        spi_mode = self.args.spi_mode, 
-                        spi_speed = self.args.spi_speed, 
-                        spi_sleep = self.args.spi_sleep,
-                        spi_device = self.args.spi_device,
-                        spi_port = self.args.spi_port)
+                if self.detect_memory == c:
+
+                    # remaping for Embedded requirements 
+                    spi_c = spi_remap(int(c))
+                    # print("c: ", int(c), ", spi_c: ", int(spi_c))
+
+                    # send class to SPI
+                    spi_send([int(spi_c)], 
+                            spi_mode = self.args.spi_mode, 
+                            spi_speed = self.args.spi_speed, 
+                            spi_sleep = self.args.spi_sleep,
+                            spi_device = self.args.spi_device,
+                            spi_port = self.args.spi_port)
+                    
+                else:
+                    self.detect_memory = c
 
 
             log_string += f"{n} {self.model.names[int(c)]}{'s' * (n > 1)}, "

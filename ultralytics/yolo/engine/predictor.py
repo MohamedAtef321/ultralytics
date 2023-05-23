@@ -107,6 +107,8 @@ class BasePredictor:
         self.callbacks = defaultdict(list, callbacks.default_callbacks)  # add callbacks
         callbacks.add_integration_callbacks(self)
 
+        self.detect_memory = None  # Prevent Sudden Changes to be sent through SPI
+
         # Check Night Vision mode
         if self.args.night_vision:
             LOGGER.info('Night Vision mode Activated!')
